@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+pydantic
+psycopg2-binary
+python-multipart
+pydantic[email]
+twilio
+python-dotenv
