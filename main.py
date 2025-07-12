@@ -62,6 +62,9 @@ def notify_telegram(enquiry):
     except Exception as e:
         print(f"❌ Telegram exception: {e}")
 
+@app.get("/")
+def root():
+    return {"status": "API live"}
 
 @app.on_event("startup")
 def startup_event():
