@@ -18,7 +18,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://snap-frontend-ten.vercel.app",
-        "https://snap-frontend-re7qlqu7g-snapsecures-projects.vercel.app"
+        "https://snap-frontend-re7qlqu7g-snapsecures-projects.vercel.app",
+        "www.snapsecuretechnologies.com"
     ],
     allow_credentials=True,
     allow_methods=["POST", "GET", "OPTIONS"],
