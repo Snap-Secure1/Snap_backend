@@ -19,7 +19,10 @@ app.add_middleware(
     allow_origins=[
         "https://snap-frontend-ten.vercel.app",
         "https://snap-frontend-re7qlqu7g-snapsecures-projects.vercel.app",
-        "www.snapsecuretechnologies.com"
+        "www.snapsecuretechnologies.com",
+        "https://snap-frontend-snapsecures-projects.vercel.app/",
+        "https://snap-frontend-git-main-snapsecures-projects.vercel.app/",
+        "https://snap-frontend-puyqyduin-snapsecures-projects.vercel.app/"
     ],
     allow_credentials=True,
     allow_methods=["POST", "GET", "OPTIONS"],
