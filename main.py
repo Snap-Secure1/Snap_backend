@@ -38,11 +38,12 @@ class Enquiry(BaseModel):
     phone_number: str
     message: str
 
+
+
 # ✅ Telegram Notification Function
 def notify_telegram(enquiry):
     TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
     TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("⚠️ Telegram credentials not set")
         return
@@ -54,10 +55,8 @@ def notify_telegram(enquiry):
         f"📞 Phone: {enquiry.phone_number}\n"
         f"📝 Message: {enquiry.message}"
     )
-
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message}
-
     try:
         response = requests.post(url, data=payload)
         if response.status_code == 200:
@@ -70,29 +69,44 @@ def notify_telegram(enquiry):
 @app.get("/")
 def root():
     return {"status": "API live"}
-
+    
+# ✅ Startup event
 @app.on_event("startup")
 def startup_event():
-    create_enquiry_table()
+    try:
+        create_enquiry_table()
+        print("✅ Enquiry table ensured on startup")
+    except Exception as e:
+        print("❌ Failed to create enquiry table:", str(e))
+        traceback.print_exc()
 
+# ✅ Submit enquiry
 @app.post("/enquiry")
 def submit_enquiry(enquiry: Enquiry):
     try:
         print("📩 Received enquiry:", enquiry)
 
         # Save to DB
-        insert_enquiry(
-            name=enquiry.name,
-            email=enquiry.email,
-            phone=enquiry.phone_number,
-            message=enquiry.message
-        )
+        try:
+            insert_enquiry(
+                name=enquiry.name,
+                email=enquiry.email,
+                phone=enquiry.phone_number,
+                message=enquiry.message
+            )
+        except Exception as db_err:
+            print("❌ Database insertion failed:", str(db_err))
+            traceback.print_exc()
+            raise HTTPException(status_code=500, detail="Database error")
 
-        # Telegram notification
+        # Telegram notification (non-blocking)
         notify_telegram(enquiry)
 
         return {"message": "✅ Enquiry submitted successfully"}
 
+    except HTTPException:
+        raise
     except Exception as e:
-        print("❌ Enquiry submission failed:", str(e))  # Show the real issue
+        print("❌ Enquiry submission failed:", str(e))
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail="Internal Server Error")
