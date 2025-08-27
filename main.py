@@ -102,7 +102,7 @@ def submit_enquiry(enquiry: Enquiry):
         # Telegram notification (non-blocking)
         notify_telegram(enquiry)
 
-        return {"message": "✅ Enquiry submitted successfully"}
+        return {"message": "✅ Enquiry submitted successfully {enquiry}"}
 
     except HTTPException:
         raise
