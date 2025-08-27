@@ -20,7 +20,7 @@ app.add_middleware(
         "https://snapsecuretechnologies.com/",
         "https://snap-frontend-ten.vercel.app",
         "https://snap-frontend-re7qlqu7g-snapsecures-projects.vercel.app",
-        "www.snapsecuretechnologies.com",
+        "https://www.snapsecuretechnologies.com",
         "https://snap-frontend-snapsecures-projects.vercel.app/",
         "https://snap-frontend-git-main-snapsecures-projects.vercel.app/",
         "https://snap-frontend-puyqyduin-snapsecures-projects.vercel.app/"
