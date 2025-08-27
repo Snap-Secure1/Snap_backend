@@ -102,7 +102,11 @@ def submit_enquiry(enquiry: Enquiry):
         # Telegram notification (non-blocking)
         notify_telegram(enquiry)
 
-        return {"message": "✅ Enquiry submitted successfully {enquiry}"}
+        return {
+        "message": "✅ Enquiry submitted successfully",
+        "enquiry_details": enquiry.dict()  # converts Pydantic model to dict
+    }
+
 
     except HTTPException:
         raise
